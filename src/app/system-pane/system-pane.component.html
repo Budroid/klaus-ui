@@ -1,0 +1,89 @@
+ <p>System status</p>
+  <ul class="list-group">
+
+    <li class="list-group-item">
+      <div class="container m-0 p-0">
+        <div class="row">
+          <div class="col-1">
+            <span class="dot green"></span>
+          </div>
+          <div class="col-5">
+            GPS
+          </div>
+          <div class="col">
+            Online
+          </div>
+          <div class="col-1">
+            <fa-icon (click)="locate()" style="color: blue" [icon]="faArrowsRotate"></fa-icon>
+          </div>
+        </div>
+      </div>
+
+    <li class="list-group-item">
+      <div class="container  m-0 p-0">
+        <div class="row">
+          <div class="col-1">
+            <span class="dot green"></span>
+          </div>
+          <div class="col-5">
+            Scanner 1
+          </div>
+          <div class="col">
+            Online
+          </div>
+          <div class="col-1">
+            <div *ngIf="scanStarted" class="spinner-grow text-primary" role="status">
+              <span class="sr-only">.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <li class="list-group-item disabled" style="color: gray">
+          <div class="container m-0 p-0">
+              <div class="row">
+                  <div class="col-1">
+                      <span class="dot red"></span>
+                  </div>
+                  <div class="col-5">
+                      Scanner 2
+                  </div>
+                  <div class="col">
+                      Offline
+                  </div>
+              </div>
+          </div>
+
+      </li>
+    <li class="list-group-item disabled" style="color: gray">
+        <div class="container m-0 p-0">
+            <div class="row">
+                <div class="col-1">
+                    <span class="dot red"></span>
+                </div>
+                <div class="col-5">
+                    Scanner 3
+                </div>
+                <div class="col">
+                    Offline
+                </div>
+            </div>
+        </div>
+    </li>
+    <li class="list-group-item disabled" style="color: gray">
+        <div class="container m-0 p-0">
+            <div class="row">
+                <div class="col-1">
+                    <span class="dot red"></span>
+                </div>
+                <div class="col-5">
+                    Crackserver
+                </div>
+                <div class="col">
+                    Offline
+                </div>
+            </div>
+        </div>
+    </li>
+  </ul>

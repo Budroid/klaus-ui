@@ -1,0 +1,29 @@
+p{
+  margin-bottom: 6px;
+  margin-left: 6px;
+  color: #4771c0;
+}
+
+.list-group-item{
+  background: none;
+  color: white;
+}
+
+.spinner-grow{
+  --bs-spinner-width: 0.8rem;
+  --bs-spinner-height: 0.8rem;
+}
+
+.dot {
+  height: 10px;
+  width: 10px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.green{
+  background-color: green;
+}
+.red{
+  background-color: firebrick;
+}

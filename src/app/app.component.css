@@ -1,0 +1,173 @@
+::ng-deep mgl-map {
+  height: 100%;
+  width: 100%;
+}
+
+.list-group-item{
+  background: none;
+}
+
+.pane{
+  position: absolute;
+  background-color: #00000077;
+  color: white;
+  padding: 10px;
+  font-size: 10pt;
+  border-radius: 25px;
+  border: 2pt solid blue;
+}
+
+.pane_inverted{
+  position: absolute;
+  background-color: blue;
+  color: black;
+  padding: 10px;
+  font-size: 10pt;
+  border-radius: 25px;
+  border: 2pt solid black;
+}
+
+.pane p{
+  margin-bottom: 6px;
+  margin-left: 6px;
+  color: #4771c0;
+}
+
+#container_scanner{
+  position: absolute;
+  width: 50vw;
+  height: 80vh;
+  top: 5vh;
+  left: 25vw;
+  padding: 10px;
+  font-size: 10pt;
+
+}
+
+#network_pane{
+  width: 15vw;
+  height: 90vh;
+  top: 5vh;
+  right: 5vw;
+}
+
+#system_pane{
+  width: 15vw;
+  height: 25vh;
+  top: 5vh;
+  left: 5vw;
+}
+
+#progress_pane{
+  width: 15vw;
+  height: 40vh;
+  top: 32vh;
+  left: 5vw;
+}
+
+#sessions_pane{
+  width: 15vw;
+  height: 20vh;
+  top: 75vh;
+  left: 5vw;
+}
+
+#processing_pane{
+  width: 10vw;
+  height: 15vh;
+  top: 40vh;
+  left: 44vw;
+}
+
+#interactive_pane{
+  width: 28vw;
+  height: 10vh;
+  top: 10vh;
+  left: 36vw;
+}
+
+#network_slider{
+  position: absolute;
+  color: white;
+  bottom: 5vh;
+  height: 13vh;
+  left: 25vw;
+}
+
+.list-group-item{
+  color: white;
+}
+
+.btn-quick-scan{
+  font-size: 6pt;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 8px;
+  padding-right: 8px;
+  margin-left: 10px;
+  margin-right: 6px;
+}
+
+.btn-attack{
+  font-size: 6pt;
+  padding: 4px;
+}
+.wifi_1{
+color: #ffffff;
+  margin-right: 6px;
+}
+
+.wifi_2{
+  color: #ffffffaa;
+  margin-right: 6px;
+}
+.wifi_3{
+  color: #ffffff77;
+  margin-right: 6px;
+}
+.wifi_4{
+  color: #ffffff44;
+  margin-right: 6px;
+}
+
+::ng-deep .carousel-control-next, .carousel-control-prev{
+width: auto !important;
+}
+
+::ng-deep a.mapboxgl-ctrl-logo{
+  display: none;
+}
+
+::ng-deep .mapboxgl-ctrl.mapboxgl-ctrl-attrib{
+  display: none;
+}
+
+::ng-deep .mapboxgl-popup-close-button {
+  display: none;
+}
+
+::ng-deep .mapboxgl-popup-content {
+  padding: 0;
+  background-color: #00000000;
+}
+
+
+::ng-deep .mapboxgl-popup-content div {
+  padding: 4px 8px;
+  background-color: black !important;
+  color: blue;
+  border: 2pt solid blue;
+  border-radius: 10px;
+}
+
+::ng-deep .mapboxgl-popup-content p {
+  margin-bottom: 0;
+}
+
+::ng-deep .mapboxgl-popup-tip{
+  border-top-color: blue !important;
+}
+
+::ng-deep .mapboxgl-popup {
+  padding-bottom: 30px;
+}

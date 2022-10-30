@@ -1,0 +1,155 @@
+<mgl-map
+  [style]="'mapbox://styles/budroid/cl99mugce00ds14l3cbg7tcam'"
+  [zoom]="[19]"
+  [maxZoom]="20"
+  [minZoom]="1"
+  [center]="currentLocation"
+  (mapLoad)="mapLoaded($event)"
+>
+  <mgl-geojson-source
+    id="network_locations"
+    [data]="data"
+  >
+  </mgl-geojson-source>
+
+  <mgl-layer
+    [id]="defaultLayer.id"
+    type="symbol"
+    [layout]="defaultLayer.layout"
+    [paint] = "defaultLayer.paint"
+    (layerClick)="selectNetworkFromLayer($event)"
+    source="network_locations"
+  >
+  </mgl-layer>
+
+  <mgl-popup [feature]="poppedUpNetwork">
+    <p>{{poppedUpNetwork.properties ? poppedUpNetwork.properties['ssid'] : "Unknown ssid"}}</p>
+  </mgl-popup>
+
+  <mgl-control
+    mglNavigation
+    position="top-right"
+  ></mgl-control>
+</mgl-map>
+
+<app-system-pane id="system_pane" class="pane" *ngIf="!interactive" [locate]="locate" [scanStarted]="scanStarted"></app-system-pane>
+
+<div id="progress_pane" class="pane" *ngIf="!interactive">
+  <p>Progress</p>
+  <button (click)="scan()" type="button" class="btn btn-primary btn-quick-scan">Scan</button>
+<!--  <p *ngIf="scanFinished">{{data | json}}</p>-->
+
+<!--  <button type="button" class="btn btn-danger btn-attack">Attack</button>-->
+<!--  <button type="button" class="btn btn-success btn-attack">Crack</button>-->
+</div>
+
+<div id="sessions_pane" class="pane" *ngIf="!interactive">
+  <p>Sessions</p>
+<a href="#">Save progress</a><br>
+  <a href="#">Load session</a>
+</div>
+
+<div id="network_pane" class="pane" *ngIf="!interactive">
+  <p>Networks ({{scannedNetworks.length}})</p>
+  <hr>
+  <div class="list-group">
+    <a href="#" (click)="selectNetwork(network)" [class.active]="network.properties.active"
+       [class.text-primary]="network.geometry != undefined" *ngFor="let network of scannedNetworks"
+       class="list-group-item m-0 p-0">
+      <fa-icon [class]="getSignalClass(network)" [icon]="faWifiStrong"></fa-icon>
+      {{network.properties.ssid}}</a>
+  </div>
+</div>
+
+<app-radar *ngIf="scanStarted" style="position: absolute; top: 20vh; left: 34vw; "></app-radar>
+
+<div id="network_slider" *ngIf="scanFinished && !interactive">
+  <div id="carouselExampleControls" class="carousel slide">
+    <div class="carousel-inner">
+      <div *ngFor="let network of scannedNetworks" class="carousel-item" [class.active]="network.properties.active">
+        <div class="pane" style="position: relative; margin-left: 80px; margin-right: 80px;  width: 40vw;">
+          <div class="container m-0 p-0">
+            <div class="row">
+              <div class="col-7">
+                <h5>{{network.properties.ssid}}</h5>
+              </div>
+              <div class="col-5">
+                <a href="#" style="float: right;" (click)="startLocate()">
+                  <fa-icon class="fa-xl" [icon]="faLocationCrosshairs"></fa-icon>
+                </a>
+              </div>
+            </div>
+          </div>
+          <p>Accesspoint(s):</p>
+          <div class="container m-0 p-0">
+            <div class="row">
+              <div class="col-2">
+                BSSID
+              </div>
+              <div class="col-1">
+                Power
+              </div>
+              <div class="col-1">
+                Channel
+              </div>
+              <div class="col-2">
+                Uptime
+              </div>
+              <div class="col">
+                Manufacturer
+              </div>
+            </div>
+            <div class="row" *ngFor="let ap of network.properties.accessPoints">
+              <div class="col-2">
+                {{ap.bssid}}
+              </div>
+              <div class="col-1">
+                {{ap.rssi}}
+              </div>
+              <div class="col-1">
+                {{ap.channel}}
+              </div>
+              <div class="col-2">
+                {{ap.uptime}}
+              </div>
+              <div class="col">
+                {{ap.vendor}}
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+    <button (click)="prev()" class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" >
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    </button>
+    <button (click)="next()" class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" >
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    </button>
+  </div>
+</div>
+<div id="processing_pane" class="pane text-center" *ngIf="processingData">
+  <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 100%">
+    <div class="row">
+      <div class="spinner-border text-primary" role="status">
+      </div>
+    </div>
+    <div class="row">
+      <strong style="margin-top: 10px;">Processing data...</strong>
+    </div>
+  </div>
+</div>
+
+<div id="interactive_pane" class="pane_inverted text-center" *ngIf="interactive" >
+  <div class="row align-items-center justify-content-center" style="min-height: 100%">
+    <div class="col-2">
+      <div class="spinner-grow text-black" style="width: 2.5rem; height: 2.5rem;" role="status"></div>
+    </div>
+    <div class="col">
+      <h1>INTERACTIVE MODE</h1>
+    </div>
+  </div>
+</div>

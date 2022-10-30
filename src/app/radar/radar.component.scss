@@ -1,0 +1,62 @@
+$height: 500px;
+$animation-time: 2s;
+
+.container_scanner {
+  margin: 0 auto;
+  width: $height * 1.1;
+}
+
+.radar {
+  position: relative;
+  height: $height;
+  width: $height;
+  border-radius: 50%;
+  overflow: hidden;
+  background: conic-gradient(from 90deg at 50% 50%, blue 0% 65%, blue);
+  background: repeating-radial-gradient(
+      transparent,
+      transparent $height / 10,
+      blue $height / 10 + 5
+  ),
+  linear-gradient(
+      transparent 49.75%,
+      #100e4c 49.75%,
+      #120e4c 50.25%,
+      transparent 50.25%
+  )
+  50% no-repeat,
+  linear-gradient(
+      90deg,
+      transparent 49.75%,
+      #100e4c 49.75%,
+      #120e4c 50.25%,
+      transparent 50.25%
+  ),
+}
+
+.grid {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+}
+
+.scanner {
+  height: 100%;
+  width: 100%;
+  border-radius: 50%;
+  background: conic-gradient(
+      from 90deg at 50% 50%,
+      rgba(46, 66, 35, 0) 0% 65%,
+      rgba(71, 99, 192, 0.5)
+  );
+  animation: rotation $animation-time infinite linear;
+}
+
+@keyframes rotation {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(359deg);
+  }
+}
