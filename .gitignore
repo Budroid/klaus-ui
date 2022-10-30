@@ -15,6 +15,7 @@ yarn-error.log
 
 # IDEs and editors
 .idea/
+.idea_0ld
 .project
 .classpath
 .c9/
@@ -23,6 +24,7 @@ yarn-error.log
 *.sublime-workspace
 
 # Visual Studio Code
+.vscode
 .vscode/*
 !.vscode/settings.json
 !.vscode/tasks.json
