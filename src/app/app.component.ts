@@ -1,31 +1,14 @@
 import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
-import {Map, MapboxGeoJSONFeature, MapMouseEvent, SymbolLayout} from "mapbox-gl";
+import {Map, MapMouseEvent, SymbolLayout} from "mapbox-gl";
 
-import {LocationService} from "./location.service";
-import {ScanService} from "./scan.service";
-import {NetworkService} from "./network.service";
+import {LocationService} from "./service/location.service";
+import {ScanService} from "./service/scan.service";
+import {NetworkService} from "./service/network.service";
 
 import {Stomp} from "@stomp/stompjs";
 import {environment} from "../environments/environment";
-import {faLocationCrosshairs, faWifiStrong} from '@fortawesome/free-solid-svg-icons';
-
-interface Network extends MapboxGeoJSONFeature {
-  id: number
-  type: "Feature"
-  properties: {
-    active: boolean;
-    ssid: string | undefined
-    accessPoints: AccessPoint[]
-  }
-}
-
-interface AccessPoint {
-  bssid: string
-  rssi: number
-  channel: number
-  vendor: string
-  uptime: string
-}
+import {faLocationCrosshairs} from '@fortawesome/free-solid-svg-icons';
+import {Network} from "./model/network";
 
 @Component({
   selector: 'app-root',
@@ -38,7 +21,6 @@ export class AppComponent implements OnInit {
   currentLocation: any = [5.874548394, 52.413900073]
   scanStarted: boolean = false
   scannedNetworks: Network[] = []
-  faWifiStrong: any = faWifiStrong
   faLocationCrosshairs: any = faLocationCrosshairs
   scanFinished: boolean = false;
   processingData: boolean = false;
@@ -145,14 +127,6 @@ export class AppComponent implements OnInit {
       this.scanFinished = true
       this.processingData = false;
     });
-  }
-
-  getSignalClass(network: Network) {
-    let signal = Math.max(...network.properties.accessPoints.map(o => o.rssi));
-    if (signal > -50) return "wifi_1";
-    if (signal > -80) return "wifi_2";
-    if (signal > -90) return "wifi_3";
-    return "wifi_4";
   }
 
   selectNetwork(network: Network) {

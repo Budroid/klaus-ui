@@ -1,0 +1,27 @@
+.wifi_1{
+  color: #ffffff;
+  margin-right: 6px;
+}
+.wifi_2{
+  color: #ffffffaa;
+  margin-right: 6px;
+}
+.wifi_3{
+  color: #ffffff77;
+  margin-right: 6px;
+}
+.wifi_4{
+  color: #ffffff44;
+  margin-right: 6px;
+}
+
+p{
+  margin-bottom: 6px;
+  margin-left: 6px;
+  color: #4771c0;
+}
+
+.list-group-item{
+  background: none;
+  color: white;
+}

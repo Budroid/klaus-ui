@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {faArrowsRotate} from '@fortawesome/free-solid-svg-icons';
 
 @Component({
@@ -8,12 +8,11 @@ import {faArrowsRotate} from '@fortawesome/free-solid-svg-icons';
 })
 export class SystemPaneComponent implements OnInit {
 
-  // @ts-ignore
-  @Input() locate: () => void;
+  @Output() locateEvent = new EventEmitter<void>()
+  @Input() scanStarted: boolean = false;
 
   faArrowsRotate: any = faArrowsRotate;
 
-  @Input() scanStarted: boolean = false;
 
   constructor() {
   }
@@ -21,4 +20,7 @@ export class SystemPaneComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  locate() {
+    this.locateEvent.emit();
+  }
 }

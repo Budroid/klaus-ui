@@ -1,0 +1,10 @@
+<p>Networks ({{scannedNetworks?.length || 0}})</p>
+<hr>
+<div class="list-group">
+  <a href="#" (click)="selectNetwork(network)" [class.active]="network.properties.active"
+     [class.text-primary]="network.geometry != undefined" *ngFor="let network of scannedNetworks"
+     class="list-group-item m-0 p-0">
+    <fa-icon [class]="getSignalClass(network)" [icon]="faWifiStrong"></fa-icon>
+    {{network.properties.ssid}}</a>
+</div>
+

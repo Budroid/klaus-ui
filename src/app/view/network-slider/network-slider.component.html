@@ -1,0 +1,66 @@
+<div id="carouselExampleControls" class="carousel slide">
+  <div class="carousel-inner">
+    <div *ngFor="let network of scannedNetworks" class="carousel-item" [class.active]="network.properties.active">
+      <div class="pane" style="position: relative; margin-left: 80px; margin-right: 80px;  width: 40vw;">
+        <div class="container m-0 p-0">
+          <div class="row">
+            <div class="col-7">
+              <h5>{{network.properties.ssid}}</h5>
+            </div>
+            <div class="col-5">
+              <a href="#" style="float: right;" (click)="startLocate()">
+                <fa-icon class="fa-xl" [icon]="faLocationCrosshairs"></fa-icon>
+              </a>
+            </div>
+          </div>
+        </div>
+        <p>Accesspoint(s):</p>
+        <div class="container m-0 p-0">
+          <div class="row">
+            <div class="col-2">
+              BSSID
+            </div>
+            <div class="col-1">
+              Power
+            </div>
+            <div class="col-1">
+              Channel
+            </div>
+            <div class="col-2">
+              Uptime
+            </div>
+            <div class="col">
+              Manufacturer
+            </div>
+          </div>
+          <div class="row" *ngFor="let ap of network.properties.accessPoints">
+            <div class="col-2">
+              {{ap.bssid}}
+            </div>
+            <div class="col-1">
+              {{ap.rssi}}
+            </div>
+            <div class="col-1">
+              {{ap.channel}}
+            </div>
+            <div class="col-2">
+              {{ap.uptime}}
+            </div>
+            <div class="col">
+              {{ap.vendor}}
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+  <button (click)="prev()" class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+  </button>
+  <button (click)="next()" class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+  </button>
+</div>

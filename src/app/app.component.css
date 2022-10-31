@@ -72,6 +72,13 @@
   left: 5vw;
 }
 
+#radar{
+  position: absolute;
+  top: 20vh;
+  left: 34vw;
+}
+
+
 #processing_pane{
   width: 10vw;
   height: 15vh;
@@ -111,27 +118,6 @@
 .btn-attack{
   font-size: 6pt;
   padding: 4px;
-}
-.wifi_1{
-color: #ffffff;
-  margin-right: 6px;
-}
-
-.wifi_2{
-  color: #ffffffaa;
-  margin-right: 6px;
-}
-.wifi_3{
-  color: #ffffff77;
-  margin-right: 6px;
-}
-.wifi_4{
-  color: #ffffff44;
-  margin-right: 6px;
-}
-
-::ng-deep .carousel-control-next, .carousel-control-prev{
-width: auto !important;
 }
 
 ::ng-deep a.mapboxgl-ctrl-logo{
