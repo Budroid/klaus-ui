@@ -36,14 +36,15 @@
   *ngIf="!interactive"
   id="system_pane"
   class="pane"
-  (locateEvent)="locate()"
-  [scanStarted]="scanStarted">
+  [scanStarted]="scanStarted"
+  (locateEvent)="locate()">
 </app-system-pane>
 
 <app-progress-pane
   *ngIf="!interactive"
   id="progress_pane"
   class="pane"
+  [stages]="stages"
   (scanEvent)="scan()">
 </app-progress-pane>
 

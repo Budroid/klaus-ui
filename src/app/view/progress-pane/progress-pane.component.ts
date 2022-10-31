@@ -1,4 +1,6 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {faCircleCheck} from "@fortawesome/free-solid-svg-icons"
+import {Stage} from "../../model/stage";
 
 @Component({
   selector: 'app-progress-pane',
@@ -7,7 +9,11 @@ import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 })
 export class ProgressPaneComponent implements OnInit {
 
+  @Input() stages:Stage[] = [];
   @Output() scanEvent = new EventEmitter();
+
+  faCircleCheck:any = faCircleCheck
+
 
   constructor() {
   }
@@ -15,6 +21,13 @@ export class ProgressPaneComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  get currentStage(){
+    let currentStage = this.stages.find(stage => !stage.completed)
+    if(!currentStage){
+      console.log("All stages completed")
+    }
+   return currentStage
+  }
 
   scan() {
     this.scanEvent.emit();

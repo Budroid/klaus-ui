@@ -59,7 +59,29 @@ export class AppComponent implements OnInit {
       coordinates: [0, 0]
     }
   }
-
+  stages = [
+    {
+      id:1,
+      name:"Scan",
+      description: "Scan the area to find attackable networks",
+      completed: false
+    },{
+      id:2,
+      name:"Locate",
+      description: "Estimate the location of the networks",
+      completed: false
+    },{
+      id:3,
+      name:"Hack",
+      description: "Attack all accesspoints to obtain crackable hashes",
+      completed: false
+    },{
+      id:4,
+      name:"Crack",
+      description: "Crack the hashes found in the previous stage to obtain the PSK",
+      completed: false
+    }
+  ]
   constructor(private locationService: LocationService,
               private scanService: ScanService,
               private networkService: NetworkService,
@@ -126,6 +148,7 @@ export class AppComponent implements OnInit {
 
       this.scanFinished = true
       this.processingData = false;
+      this.toStage(2);
     });
   }
 
@@ -175,6 +198,10 @@ export class AppComponent implements OnInit {
         this.setPoppedUpNetwork()
         this.map.getCanvas().style.cursor = "unset"
         this.interactive = false;
+        // Check if all networks are plotted
+        if(this.scannedNetworks.length === this.data.features.length){
+          this.toStage(3);
+        }
         this.changeDetector.detectChanges();
       }
     });
@@ -224,5 +251,11 @@ export class AppComponent implements OnInit {
     this.locationService.getLocation().subscribe((data: number[]) => {
       this.currentLocation = data
     });
+  }
+
+  private toStage(stageId: number) {
+    let currentstage = this.stages.find(stage => stage.id === stageId -1)
+    // @ts-ignore
+    currentstage.completed = true;
   }
 }
