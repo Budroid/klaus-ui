@@ -9,9 +9,10 @@
 <!--      <p class="mb-1">Some placeholder content in a paragraph.</p>-->
       <small *ngIf="lStage.id === currentStage?.id">{{lStage.description}}</small>
       <button *ngIf="currentStage?.id === 1 && lStage.id === currentStage?.id" (click)="scan()" type="button" class="btn btn-primary btn-quick-scan">Scan</button>
+      <button *ngIf="currentStage?.id === 3 && lStage.id === currentStage?.id" (click)="hack()" type="button" class="btn btn-danger btn-attack">Hack</button>
     </div>
 
   </div>
 
-    <!--  <button type="button" class="btn btn-danger btn-attack">Attack</button>-->
+
     <!--  <button type="button" class="btn btn-success btn-attack">Crack</button>-->

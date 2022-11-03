@@ -36,7 +36,9 @@
   *ngIf="!interactive"
   id="system_pane"
   class="pane"
+  [class.hackstage]="currentStage === 3"
   [scanStarted]="scanStarted"
+  [hackStarted]="hackStarted"
   (locateEvent)="locate()">
 </app-system-pane>
 
@@ -44,20 +46,24 @@
   *ngIf="!interactive"
   id="progress_pane"
   class="pane"
+  [class.hackstage]="currentStage === 3"
   [stages]="stages"
-  (scanEvent)="scan()">
+  (scanEvent)="scan()"
+  (hackEvent)="hack()">
 </app-progress-pane>
 
 <app-sessions-pane
   *ngIf="!interactive"
   id="sessions_pane"
-  class="pane">
+  class="pane"
+  [class.hackstage]="currentStage === 3">
 </app-sessions-pane>
 
 <app-networklist-pane
   *ngIf="!interactive"
   id="network_pane"
   class="pane"
+  [class.hackstage]="currentStage === 3"
   [scannedNetworks]="scannedNetworks"
   (selectNetworkEvent)="selectNetwork($event)">
 </app-networklist-pane>
@@ -83,6 +89,7 @@
   *ngIf="scanFinished && !interactive"
   id="network_slider"
   [scannedNetworks]="scannedNetworks"
+  [currentStage]="currentStage"
   (startLocateEvent)="startLocate()"
   (prevEvent)="prev()"
   (nextEvent)="next()">

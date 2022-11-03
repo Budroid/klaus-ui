@@ -8,6 +8,10 @@
   border: 2pt solid blue;
 }
 
+.hackstage{
+  border: 2pt solid red;
+}
+
 ::ng-deep .carousel-control-next, .carousel-control-prev{
   width: auto !important;
 }

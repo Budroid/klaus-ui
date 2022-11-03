@@ -29,10 +29,13 @@
             Scanner 1
           </div>
           <div class="col">
-            Online
+            Online {{hackStarted}}
           </div>
           <div class="col-1">
             <div *ngIf="scanStarted" class="spinner-grow text-primary" role="status">
+              <span class="sr-only">.</span>
+            </div>
+            <div *ngIf="hackStarted" class="spinner-grow text-danger" role="status">
               <span class="sr-only">.</span>
             </div>
           </div>

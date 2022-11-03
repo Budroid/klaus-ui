@@ -17,6 +17,10 @@
   border: 2pt solid blue;
 }
 
+.hackstage{
+  border: 2pt solid red;
+}
+
 .pane_inverted{
   position: absolute;
   background-color: blue;

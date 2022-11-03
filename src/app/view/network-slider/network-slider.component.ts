@@ -10,6 +10,7 @@ import {faLocationCrosshairs} from "@fortawesome/free-solid-svg-icons"
 export class NetworkSliderComponent implements OnInit {
 
   @Input() scannedNetworks: Network[] | undefined;
+  @Input() currentStage: number | undefined;
 
   @Output() startLocateEvent = new EventEmitter<void>();
   @Output() prevEvent= new EventEmitter<void>();

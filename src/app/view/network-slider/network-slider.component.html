@@ -1,7 +1,7 @@
 <div id="carouselExampleControls" class="carousel slide">
   <div class="carousel-inner">
     <div *ngFor="let network of scannedNetworks" class="carousel-item" [class.active]="network.properties.active">
-      <div class="pane" style="position: relative; margin-left: 80px; margin-right: 80px;  width: 40vw;">
+      <div class="pane" [class.hackstage]="currentStage === 3" style="position: relative; margin-left: 80px; margin-right: 80px;  width: 40vw;">
         <div class="container m-0 p-0">
           <div class="row">
             <div class="col-7">
@@ -9,7 +9,7 @@
             </div>
             <div class="col-5">
               <a href="#" style="float: right;" (click)="startLocate()">
-                <fa-icon class="fa-xl" [icon]="faLocationCrosshairs"></fa-icon>
+                <fa-icon class="fa-xl" [class.text-danger]="currentStage === 3" [icon]="faLocationCrosshairs"></fa-icon>
               </a>
             </div>
           </div>
@@ -34,7 +34,7 @@
             </div>
           </div>
           <div class="row" *ngFor="let ap of network.properties.accessPoints">
-            <div class="col-2">
+            <div class="col-2" [class.text-danger]="ap.hashLines">
               {{ap.bssid}}
             </div>
             <div class="col-1">

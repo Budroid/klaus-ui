@@ -4,11 +4,13 @@ import {Map, MapMouseEvent, SymbolLayout} from "mapbox-gl";
 import {LocationService} from "./service/location.service";
 import {ScanService} from "./service/scan.service";
 import {NetworkService} from "./service/network.service";
+import {HackService} from "./service/hack.service";
 
 import {Stomp} from "@stomp/stompjs";
 import {environment} from "../environments/environment";
 import {faLocationCrosshairs} from '@fortawesome/free-solid-svg-icons';
 import {Network} from "./model/network";
+import {HackInfo} from "./model/hackInfo";
 
 @Component({
   selector: 'app-root',
@@ -19,8 +21,10 @@ import {Network} from "./model/network";
 export class AppComponent implements OnInit {
   title = 'klaus';
   currentLocation: any = [5.874548394, 52.413900073]
+  currentStage = 1;
   scanStarted: boolean = false
   scannedNetworks: Network[] = []
+  hackStarted: boolean = false
   faLocationCrosshairs: any = faLocationCrosshairs
   scanFinished: boolean = false;
   processingData: boolean = false;
@@ -85,6 +89,7 @@ export class AppComponent implements OnInit {
   constructor(private locationService: LocationService,
               private scanService: ScanService,
               private networkService: NetworkService,
+              private hackService: HackService,
               private changeDetector: ChangeDetectorRef) {}
 
   ngOnInit(): void {
@@ -94,10 +99,72 @@ export class AppComponent implements OnInit {
     };
     stompClient.connect({}, (frame: string) => {
       console.log('Connected: ' + frame);
+
       stompClient.subscribe('/topic/networks', (message) => {
         //console.log(message.body)
         this.scannedNetworks = JSON.parse(message.body);
       });
+
+      stompClient.subscribe('/topic/hacks', (message) => {
+        let hackInfolist: HackInfo[] = JSON.parse(message.body);
+
+
+        infoList:for (let hackInfo of hackInfolist) {
+          for (let scannedNetwork of this.scannedNetworks) {
+            if (scannedNetwork.properties.ssid === hackInfo.ssid) {
+
+              scannedNetwork.properties.hacked = true;
+              for (let ap of scannedNetwork.properties.accessPoints) {
+                if (ap.bssid === hackInfo.ap) {
+                  if (ap.hashLines) {
+                    console.log("Adding hashline to existing AP")
+                    ap.hashLines.push(hackInfo.hashLine);
+                  } else {
+                    ap.hashLines = [hackInfo.hashLine]
+                  }
+                  continue infoList;
+                }
+              }
+              console.log("Adding AP to existing network")
+              scannedNetwork.properties.accessPoints.push({
+                hashLines: [hackInfo.hashLine],
+                vendor: "Unknown",
+                uptime: "Unknown",
+                rssi: -100,
+                channel: 0,
+                bssid: hackInfo.ap
+              })
+              continue infoList;
+            }
+          }
+          console.log("Adding new network to the list")
+          // @ts-ignore
+          this.scannedNetworks.push({
+            id: 0,
+            type: "Feature",
+            properties: {
+              ssid: hackInfo.ssid,
+              hacked: true,
+              accessPoints: [{
+                bssid: hackInfo.ap,
+                hashLines: [hackInfo.hashLine],
+                channel: 0,
+                rssi: hackInfo?.rssi || -101,
+                uptime: "Unknown",
+                vendor: "Unknown"
+              }],
+              active: false
+            },
+          })
+        }
+        this.scannedNetworks.sort((a, b) =>{
+          let rssiA = Math.max(...a.properties.accessPoints.map(ap => ap.rssi));
+          let rssiB = Math.max(...b.properties.accessPoints.map(ap => ap.rssi));
+          return rssiA < rssiB ? 1 : -1;
+        })
+      });
+
+
     });
 
     // Get our GPS location
@@ -208,12 +275,10 @@ export class AppComponent implements OnInit {
   }
 
   get activeNetwork(){
-    console.log("get activeNetwork called")
     return this.scannedNetworks.find(network => network.properties.active)
   }
 
   setPoppedUpNetwork() {
-    console.log("get poppedUpNetwork called")
     let poppedUpNetWork: any = {
       geometry: {
         type: "Point",
@@ -241,7 +306,6 @@ export class AppComponent implements OnInit {
   }
 
   selectNetworkFromLayer(evt: MapMouseEvent) {
-    console.log("SELECT")
     // let network = this.data.features.find(feature => feature.id === (<any>evt).features[0].id);
     let network = this.scannedNetworks.find(feature => feature.id === (<any>evt).features[0].id);
     this.selectNetwork(network as Network)
@@ -257,5 +321,21 @@ export class AppComponent implements OnInit {
     let currentstage = this.stages.find(stage => stage.id === stageId -1)
     // @ts-ignore
     currentstage.completed = true;
+    this.currentStage = stageId;
+    if (stageId === 3) {
+      console.log("Make red")
+      this.defaultLayer.paint = {
+        "icon-color": "red",
+        "text-color": "red"
+      }
+    }
+  }
+
+  hack() {
+    // call api to start or stop the hack
+    this.hackService.startHack(this.hackStarted).subscribe((data:boolean) => {
+      this.hackStarted = data;
+      this.changeDetector.detectChanges();
+    })
   }
 }

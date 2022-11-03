@@ -11,6 +11,7 @@ export class ProgressPaneComponent implements OnInit {
 
   @Input() stages:Stage[] = [];
   @Output() scanEvent = new EventEmitter();
+  @Output() hackEvent = new EventEmitter();
 
   faCircleCheck:any = faCircleCheck
 
@@ -31,5 +32,9 @@ export class ProgressPaneComponent implements OnInit {
 
   scan() {
     this.scanEvent.emit();
+  }
+
+  hack() {
+    this.hackEvent.emit();
   }
 }
