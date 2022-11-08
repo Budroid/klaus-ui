@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
@@ -14,6 +15,7 @@ import { NetworkListPaneComponent } from './view/network-pane/network-list-pane.
 import { NetworkSliderComponent } from './view/network-slider/network-slider.component';
 import { ProcessingPaneComponent } from './view/processing-pane/processing-pane.component';
 import { InteractivePaneComponent } from './view/interactive-pane/interactive-pane.component';
+import { OverlayComponent } from './overlay/overlay.component';
 
 @NgModule({
   declarations: [
@@ -26,9 +28,11 @@ import { InteractivePaneComponent } from './view/interactive-pane/interactive-pa
     NetworkSliderComponent,
     ProcessingPaneComponent,
     InteractivePaneComponent,
+    OverlayComponent,
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     HttpClientModule,
     NgxMapboxGLModule.withConfig({
       accessToken: environment.mapbox.accessToken

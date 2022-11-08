@@ -1,6 +1,8 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {faCircleCheck} from "@fortawesome/free-solid-svg-icons"
 import {Stage} from "../../model/stage";
+import {SafeUrl} from "@angular/platform-browser";
+import {Network} from "../../model/network";
 
 @Component({
   selector: 'app-progress-pane',
@@ -10,8 +12,17 @@ import {Stage} from "../../model/stage";
 export class ProgressPaneComponent implements OnInit {
 
   @Input() stages:Stage[] = [];
+  @Input() currentStage: number | undefined;
+  @Input() data:{
+    type: "FeatureCollection",
+    features: Network[]
+  } = {
+    type: 'FeatureCollection',
+    features: []
+  }
   @Output() scanEvent = new EventEmitter();
   @Output() hackEvent = new EventEmitter();
+  @Output() loadEvent = new EventEmitter();
 
   faCircleCheck:any = faCircleCheck
 
@@ -22,19 +33,21 @@ export class ProgressPaneComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  get currentStage(){
-    let currentStage = this.stages.find(stage => !stage.completed)
-    if(!currentStage){
-      console.log("All stages completed")
-    }
-   return currentStage
-  }
-
   scan() {
     this.scanEvent.emit();
   }
 
   hack() {
     this.hackEvent.emit();
+  }
+
+  load(){
+    this.loadEvent.emit();
+  }
+
+  get dataUri(): SafeUrl {
+    const jsonData = JSON.stringify(this.data);
+    // return this.sanitizer.bypassSecurityTrustUrl(uri);
+    return 'data:application/json;charset=UTF-8,' + encodeURIComponent(jsonData);
   }
 }

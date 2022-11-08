@@ -11,6 +11,7 @@ export class SystemPaneComponent implements OnInit {
   @Output() locateEvent = new EventEmitter<void>()
   @Input() scanStarted: boolean = false;
   @Input() hackStarted: boolean = false;
+  @Input() currentStage: number | undefined;
 
   faArrowsRotate: any = faArrowsRotate;
 

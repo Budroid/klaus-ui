@@ -1,6 +1,6 @@
 <mgl-map
   [style]="'mapbox://styles/budroid/cl99mugce00ds14l3cbg7tcam'"
-  [zoom]="[19]"
+  [zoom]="[18]"
   [maxZoom]="20"
   [minZoom]="1"
   [center]="currentLocation"
@@ -31,39 +31,34 @@
     position="top-right"
   ></mgl-control>
 </mgl-map>
-
+<!---->
 <app-system-pane
-  *ngIf="!interactive"
+  *ngIf="!interactive && !scanStarted && !hackStarted"
   id="system_pane"
   class="pane"
-  [class.hackstage]="currentStage === 3"
+  [currentStage]="currentStage"
   [scanStarted]="scanStarted"
   [hackStarted]="hackStarted"
   (locateEvent)="locate()">
 </app-system-pane>
 
+<!---->
 <app-progress-pane
-  *ngIf="!interactive"
+  *ngIf="!interactive && !scanStarted && !hackStarted"
   id="progress_pane"
   class="pane"
-  [class.hackstage]="currentStage === 3"
+  [currentStage]="currentStage"
   [stages]="stages"
+  [data]="data"
   (scanEvent)="scan()"
-  (hackEvent)="hack()">
+  (hackEvent)="hack()"
+  (loadEvent)="load()">
 </app-progress-pane>
-
-<app-sessions-pane
-  *ngIf="!interactive"
-  id="sessions_pane"
-  class="pane"
-  [class.hackstage]="currentStage === 3">
-</app-sessions-pane>
 
 <app-networklist-pane
   *ngIf="!interactive"
   id="network_pane"
   class="pane"
-  [class.hackstage]="currentStage === 3"
   [scannedNetworks]="scannedNetworks"
   (selectNetworkEvent)="selectNetwork($event)">
 </app-networklist-pane>
@@ -80,13 +75,12 @@
   class="pane_inverted text-center">
 </app-interactive-pane>
 
-<app-radar
-  *ngIf="scanStarted"
-  id="radar">
-</app-radar>
-
+<div *ngIf="scanStarted || hackStarted" [@openClose]="hackStarted || scanStarted ? 'open' : 'closed'">
+<app-overlay  [hackStarted]="hackStarted" (click)="hackStarted ? hack() : scan()"  style="overflow: hidden" id="overlay" ></app-overlay>
+<!--<app-overlay (click)="scan()" *ngIf="hackStarted" style="overflow: hidden" id="overlay" ></app-overlay>-->
+</div>
 <app-network-slider
-  *ngIf="scanFinished && !interactive"
+  *ngIf="currentStage > 1 && !interactive  && !hackStarted"
   id="network_slider"
   [scannedNetworks]="scannedNetworks"
   [currentStage]="currentStage"

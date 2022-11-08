@@ -7,52 +7,12 @@
   background: none;
 }
 
-.pane{
-  position: absolute;
-  background-color: #00000077;
-  color: white;
-  padding: 10px;
-  font-size: 10pt;
-  border-radius: 25px;
-  border: 2pt solid blue;
-}
-
-.hackstage{
-  border: 2pt solid red;
-}
-
-.pane_inverted{
-  position: absolute;
-  background-color: blue;
-  color: black;
-  padding: 10px;
-  font-size: 10pt;
-  border-radius: 25px;
-  border: 2pt solid black;
-}
-
-.pane p{
-  margin-bottom: 6px;
-  margin-left: 6px;
-  color: #4771c0;
-}
-
-#container_scanner{
-  position: absolute;
-  width: 50vw;
-  height: 80vh;
-  top: 5vh;
-  left: 25vw;
-  padding: 10px;
-  font-size: 10pt;
-
-}
-
 #network_pane{
   width: 15vw;
   height: 90vh;
   top: 5vh;
   right: 5vw;
+  z-index: 999;
 }
 
 #system_pane{
@@ -64,24 +24,10 @@
 
 #progress_pane{
   width: 15vw;
-  height: 40vh;
+  height: 60vh;
   top: 32vh;
   left: 5vw;
 }
-
-#sessions_pane{
-  width: 15vw;
-  height: 20vh;
-  top: 75vh;
-  left: 5vw;
-}
-
-#radar{
-  position: absolute;
-  top: 20vh;
-  left: 34vw;
-}
-
 
 #processing_pane{
   width: 10vw;
@@ -105,59 +51,24 @@
   left: 25vw;
 }
 
+#overlay{
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  /*animation: fadeIn 3s;*/
+}
+
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+
 .list-group-item{
   color: white;
 }
 
-.btn-quick-scan{
-  font-size: 6pt;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  padding-left: 8px;
-  padding-right: 8px;
-  margin-left: 10px;
-  margin-right: 6px;
-}
-
-.btn-attack{
-  font-size: 6pt;
-  padding: 4px;
-}
-
-::ng-deep a.mapboxgl-ctrl-logo{
-  display: none;
-}
-
-::ng-deep .mapboxgl-ctrl.mapboxgl-ctrl-attrib{
-  display: none;
-}
-
-::ng-deep .mapboxgl-popup-close-button {
-  display: none;
-}
-
-::ng-deep .mapboxgl-popup-content {
-  padding: 0;
-  background-color: #00000000;
-}
 
 
-::ng-deep .mapboxgl-popup-content div {
-  padding: 4px 8px;
-  background-color: black !important;
-  color: blue;
-  border: 2pt solid blue;
-  border-radius: 10px;
-}
-
-::ng-deep .mapboxgl-popup-content p {
-  margin-bottom: 0;
-}
-
-::ng-deep .mapboxgl-popup-tip{
-  border-top-color: blue !important;
-}
-
-::ng-deep .mapboxgl-popup {
-  padding-bottom: 30px;
-}

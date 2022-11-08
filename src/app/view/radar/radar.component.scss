@@ -1,35 +1,30 @@
 $height: 500px;
-$animation-time: 2s;
-
-.container_scanner {
-  margin: 0 auto;
-  width: $height * 1.1;
-}
+$animation-time: 4s;
 
 .radar {
   position: relative;
-  height: $height;
-  width: $height;
+  height: 70vh;
+  width: 70vh;
   border-radius: 50%;
   overflow: hidden;
-  background: conic-gradient(from 90deg at 50% 50%, blue 0% 65%, blue);
+  background: conic-gradient(from 90deg at 50% 50%, #{var(--stage-color)} 0% 65%, #{var(--stage-color)});
   background: repeating-radial-gradient(
       transparent,
       transparent $height / 10,
-      blue $height / 10 + 5
+      #{var(--stage-color)} $height / 10 + 5
   ),
   linear-gradient(
       transparent 49.75%,
-      #100e4c 49.75%,
-      #120e4c 50.25%,
+      #{var(--stage-color-dark)} 49.75%,
+      #{var(--stage-color-dark)} 50.25%,
       transparent 50.25%
   )
   50% no-repeat,
   linear-gradient(
       90deg,
       transparent 49.75%,
-      #100e4c 49.75%,
-      #120e4c 50.25%,
+      #{var(--stage-color-dark)} 49.75%,
+      #{var(--stage-color-dark)} 50.25%,
       transparent 50.25%
   ),
 }
@@ -46,8 +41,8 @@ $animation-time: 2s;
   border-radius: 50%;
   background: conic-gradient(
       from 90deg at 50% 50%,
-      rgba(46, 66, 35, 0) 0% 65%,
-      rgba(71, 99, 192, 0.5)
+      rgba(0, 0, 0, 0) 0% 65%,
+      #{var(--stage-color-radar)}
   );
   animation: rotation $animation-time infinite linear;
 }

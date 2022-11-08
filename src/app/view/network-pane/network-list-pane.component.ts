@@ -31,4 +31,8 @@ export class NetworkListPaneComponent implements OnInit {
   selectNetwork(network: Network) {
     this.selectNetworkEvent.emit(network)
   }
+
+  get hackedNetworksCount(){
+    return this.scannedNetworks?.filter(network => network.properties.hacked)?.length || 0;
+  }
 }

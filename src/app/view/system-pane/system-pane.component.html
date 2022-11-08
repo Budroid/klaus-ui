@@ -5,7 +5,7 @@
       <div class="container m-0 p-0">
         <div class="row">
           <div class="col-1">
-            <span class="dot green"></span>
+            <span class="dot_small green"></span>
           </div>
           <div class="col-5">
             GPS
@@ -14,7 +14,7 @@
             Online
           </div>
           <div class="col-1">
-            <fa-icon (click)="locate()" style="color: blue" [icon]="faArrowsRotate"></fa-icon>
+            <fa-icon (click)="locate()" style="color: var(--stage-color)" [icon]="faArrowsRotate"></fa-icon>
           </div>
         </div>
       </div>
@@ -23,13 +23,13 @@
       <div class="container  m-0 p-0">
         <div class="row">
           <div class="col-1">
-            <span class="dot green"></span>
+            <span class="dot_small green"></span>
           </div>
           <div class="col-5">
             Scanner 1
           </div>
           <div class="col">
-            Online {{hackStarted}}
+            Online
           </div>
           <div class="col-1">
             <div *ngIf="scanStarted" class="spinner-grow text-primary" role="status">
@@ -47,7 +47,7 @@
           <div class="container m-0 p-0">
               <div class="row">
                   <div class="col-1">
-                      <span class="dot red"></span>
+                      <span class="dot_small red"></span>
                   </div>
                   <div class="col-5">
                       Scanner 2
@@ -63,7 +63,7 @@
         <div class="container m-0 p-0">
             <div class="row">
                 <div class="col-1">
-                    <span class="dot red"></span>
+                    <span class="dot_small red"></span>
                 </div>
                 <div class="col-5">
                     Scanner 3
@@ -78,7 +78,7 @@
         <div class="container m-0 p-0">
             <div class="row">
                 <div class="col-1">
-                    <span class="dot red"></span>
+                    <span class="dot_small red"></span>
                 </div>
                 <div class="col-5">
                     Crackserver

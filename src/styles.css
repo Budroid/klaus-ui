@@ -1,4 +1,97 @@
 /* You can add global styles to this file, and also import other style files */
+:root {
+  --stage-color: blue;
+  --popup-color: blue;
+  --stage-color-dark: #120e4c;
+  --stage-color-radar: #4763c088
+}
+
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
+
+.pane{
+  position: absolute;
+  background-color: #00000077;
+  color: white;
+  padding: 10px;
+  font-size: 10pt;
+  border-radius: 25px;
+  border: 2pt solid var(--stage-color);
+}
+
+.dot {
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  display: inline-block;
+  background-color: var(--stage-color);
+}
+
+.dot_small {
+  height: 10px;
+  width: 10px;
+  border-radius: 50%;
+  display: inline-block;
+  background-color: var(--stage-color);
+}
+
+.pane_inverted{
+  position: absolute;
+  background-color: var(--stage-color);
+  color: black;
+  padding: 10px;
+  font-size: 10pt;
+  border-radius: 25px;
+  border: 2pt solid black;
+}
+
+.pane p{
+  margin-bottom: 6px;
+  margin-left: 6px;
+  color: var(--stage-color);
+}
+
+.mapboxgl-popup-close-button {
+  display: none;
+}
+
+.mapboxgl-popup-content {
+  padding: 0 !important;
+  background-color: #00000000 !important;
+}
+
+.mapboxgl-popup-content div {
+  padding: 4px 8px;
+  background-color: black !important;
+  color: var(--popup-color);
+  border: 2pt solid var(--popup-color);
+  border-radius: 10px;
+}
+
+.mapboxgl-popup-content p {
+  margin-bottom: 0;
+}
+
+.mapboxgl-popup-tip{
+  border-top-color: var(--popup-color) !important;
+}
+
+.mapboxgl-popup {
+  padding-bottom: 30px;
+}
+
+a.mapboxgl-ctrl-logo{
+  display: none;
+}
+
+.mapboxgl-ctrl.mapboxgl-ctrl-attrib{
+  display: none;
+}
+
+.mapboxgl-ctrl-bottom-left{
+  display: none;
+}
+.mapboxgl-ctrl-top-right{
+  display: none;
+}

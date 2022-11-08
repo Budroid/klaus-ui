@@ -1,17 +1,3 @@
-.pane{
-  position: absolute;
-  background-color: #00000077;
-  color: white;
-  padding: 10px;
-  font-size: 10pt;
-  border-radius: 25px;
-  border: 2pt solid blue;
-}
-
-.hackstage{
-  border: 2pt solid red;
-}
-
 ::ng-deep .carousel-control-next, .carousel-control-prev{
   width: auto !important;
 }

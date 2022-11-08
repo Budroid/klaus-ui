@@ -1,0 +1,30 @@
+<ng-container style="position: relative;overflow: hidden">
+  <div class="row overlay-background" style="height: 10vh;">
+    <div class="col-1" style="height: 100%;"><div id="overlay-top-left" class="overlay-corner-box"></div></div>
+    <div class="col" style="height: 100%;"></div>
+    <div class="col-4" style="height: 100%"><div id="overlay-top-right" class="overlay-corner-box"></div></div>
+  </div>
+  <div class="row " style="height: 80vh;overflow: hidden">
+    <div class="col-1 overlay-background" style="height: 100%;"></div>
+    <div class="col d-flex align-items-center justify-content-center" style="height: 100%">
+      <app-radar id="radar">
+      </app-radar>
+    </div>
+    <div class="col-4 overlay-background" ></div>
+  </div>
+  <div class="row overlay-background" style="height: 10vh;overflow: hidden">
+    <div class="col-1" style="height: 100%;"><div id="overlay-bottom-left" class="overlay-corner-box"></div></div>
+    <div class="col d-flex align-items-center justify-content-center" style="height: 100%; ">
+      <div class="dot blinking_text" role="status"></div>
+      <div class="text-center blinking_text ps-2"><h3 class="m-0">{{hackStarted ? "ATTACKING" : "SCANNING"}}</h3></div>
+    </div>
+    <div class="col-4" style="height: 100%"><div id="overlay-bottom-right" class="overlay-corner-box"></div></div>
+  </div>
+</ng-container>
+
+
+
+<!--<div id="overlay-top-left" class="overlay-corner-box"></div>-->
+<!--<div id="overlay-top-right" class="overlay-corner-box"></div>-->
+<!--<div id="overlay-bottom-right" class="overlay-corner-box"></div>-->
+<!--<div id="overlay-bottom-left" class="overlay-corner-box"></div>-->

@@ -1,5 +1,7 @@
 import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
-import {Map, MapMouseEvent, SymbolLayout} from "mapbox-gl";
+import {Expression, Map, MapMouseEvent, SymbolLayout, SymbolPaint} from "mapbox-gl";
+
+import mergelData from "/home/robert/hcxtools/hcxdumptool/klaus/test/mergel.json";
 
 import {LocationService} from "./service/location.service";
 import {ScanService} from "./service/scan.service";
@@ -11,22 +13,34 @@ import {environment} from "../environments/environment";
 import {faLocationCrosshairs} from '@fortawesome/free-solid-svg-icons';
 import {Network} from "./model/network";
 import {HackInfo} from "./model/hackInfo";
+import {animate, state, style, transition, trigger} from "@angular/animations";
 
 @Component({
   selector: 'app-root',
+  animations: [
+    trigger('openClose', [
+      transition(':enter', [
+        style({ opacity: 0 }),
+        animate(1000)
+      ]),
+      transition(':leave', [
+        animate(1000, style({ opacity: 0 }))
+      ]),
+      state('*', style({ opacity: 1 })),
+    ])
+  ],
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
 })
 
 export class AppComponent implements OnInit {
   title = 'klaus';
-  currentLocation: any = [5.874548394, 52.413900073]
+  currentLocation: any = [5.874548394, 52.4138]
   currentStage = 1;
   scanStarted: boolean = false
   scannedNetworks: Network[] = []
   hackStarted: boolean = false
   faLocationCrosshairs: any = faLocationCrosshairs
-  scanFinished: boolean = false;
   processingData: boolean = false;
   // @ts-ignore
   map: Map;
@@ -49,13 +63,20 @@ export class AppComponent implements OnInit {
     'icon-size': 1,
     'icon-allow-overlap': true,
   }
+  paintColor: Expression = [
+    "case",
+    ["==", ["get", "hacked"], true], "red",
+    ["==", ["get", "hacked"], false], "blue",
+    "blue"
+  ]
+  paint: SymbolPaint = {
+    "text-color": this.paintColor,
+    "icon-color": this.paintColor
+  }
   defaultLayer = {
     id: 'default',
     layout: this.layout,
-    paint:  {
-      "icon-color": "blue",
-      "text-color": "blue"
-    }
+    paint: this.paint
   }
   poppedUpNetwork:any =  {
     geometry: {
@@ -68,21 +89,25 @@ export class AppComponent implements OnInit {
       id:1,
       name:"Scan",
       description: "Scan the area to find attackable networks",
+      colors: ["#0000ff", "#120e4c"],
       completed: false
     },{
       id:2,
       name:"Locate",
       description: "Estimate the location of the networks",
+      color: ["#0000ff", "#120e4c", "#4763c088"],
       completed: false
     },{
       id:3,
       name:"Hack",
       description: "Attack all accesspoints to obtain crackable hashes",
+      color: ["#ff0000", "#560909", "#C0475588"],
       completed: false
     },{
       id:4,
       name:"Crack",
       description: "Crack the hashes found in the previous stage to obtain the PSK",
+      color: ["#9dff00", "#1e591e", "#61C04787"],
       completed: false
     }
   ]
@@ -106,9 +131,8 @@ export class AppComponent implements OnInit {
       });
 
       stompClient.subscribe('/topic/hacks', (message) => {
+        console.log("info recieved")
         let hackInfolist: HackInfo[] = JSON.parse(message.body);
-
-
         infoList:for (let hackInfo of hackInfolist) {
           for (let scannedNetwork of this.scannedNetworks) {
             if (scannedNetwork.properties.ssid === hackInfo.ssid) {
@@ -140,7 +164,7 @@ export class AppComponent implements OnInit {
           console.log("Adding new network to the list")
           // @ts-ignore
           this.scannedNetworks.push({
-            id: 0,
+            id: this.scannedNetworks.length + 1,
             type: "Feature",
             properties: {
               ssid: hackInfo.ssid,
@@ -157,14 +181,13 @@ export class AppComponent implements OnInit {
             },
           })
         }
-        this.scannedNetworks.sort((a, b) =>{
+        this.scannedNetworks.sort((a, b) => {
           let rssiA = Math.max(...a.properties.accessPoints.map(ap => ap.rssi));
           let rssiB = Math.max(...b.properties.accessPoints.map(ap => ap.rssi));
           return rssiA < rssiB ? 1 : -1;
         })
+        this.redrawMap();
       });
-
-
     });
 
     // Get our GPS location
@@ -177,12 +200,15 @@ export class AppComponent implements OnInit {
     this.scanService.startScan(this.scanStarted).subscribe((data:boolean) => {
       if(!data){
         this.stopScan();
+      }else{
+        this.map.flyTo({zoom:19, center:[this.currentLocation[0] + 0.0002, this.currentLocation[1]], duration:1000})
       }
       this.scanStarted = data;
     })
   }
 
   stopScan() {
+    this.map.flyTo({zoom:18, center:[this.currentLocation[0], this.currentLocation[1]], duration:1000})
     this.processingData = true;
     // Create bssid list for the extra info
     let bssidList: string[] = this.scannedNetworks.reduce((acc, obj) => {
@@ -212,8 +238,6 @@ export class AppComponent implements OnInit {
           network.type = "Feature"
           return network;
         });
-
-      this.scanFinished = true
       this.processingData = false;
       this.toStage(2);
     });
@@ -250,6 +274,7 @@ export class AppComponent implements OnInit {
     this.interactive = true;
     this.changeDetector.detectChanges();
     this.map.getCanvas().style.cursor = "crosshair"
+    this.map.flyTo({zoom:19, center:[this.currentLocation[0], this.currentLocation[1]], duration:1000})
     this.map.on('click', (e) => {
       if(this.interactive){
 
@@ -258,11 +283,9 @@ export class AppComponent implements OnInit {
           type: "Point",
           coordinates: [e.lngLat.lng, e.lngLat.lat]
         }
-        this.data =  {
-          type: "FeatureCollection",
-          features: this.scannedNetworks.filter(network => network.geometry)
-        };
+        this.redrawMap();
         this.setPoppedUpNetwork()
+        this.map.flyTo({zoom:18, center:[this.currentLocation[0], this.currentLocation[1]], duration:1000})
         this.map.getCanvas().style.cursor = "unset"
         this.interactive = false;
         // Check if all networks are plotted
@@ -272,6 +295,13 @@ export class AppComponent implements OnInit {
         this.changeDetector.detectChanges();
       }
     });
+  }
+
+  private redrawMap() {
+    this.data = {
+      type: "FeatureCollection",
+      features: this.scannedNetworks.filter(network => network.geometry)
+    };
   }
 
   get activeNetwork(){
@@ -291,6 +321,14 @@ export class AppComponent implements OnInit {
         ssid:activeNetwork.properties.ssid,
       }
       poppedUpNetWork.geometry = activeNetwork.geometry;
+      // Set popup color
+      let root = document.querySelector(':root');
+      let popupColor = "blue"
+      if(activeNetwork.properties.hacked){
+        popupColor = "red";
+      }
+      // @ts-ignore
+      root.style.setProperty('--popup-color', popupColor);
     }
 
     this.poppedUpNetwork = poppedUpNetWork;
@@ -306,7 +344,6 @@ export class AppComponent implements OnInit {
   }
 
   selectNetworkFromLayer(evt: MapMouseEvent) {
-    // let network = this.data.features.find(feature => feature.id === (<any>evt).features[0].id);
     let network = this.scannedNetworks.find(feature => feature.id === (<any>evt).features[0].id);
     this.selectNetwork(network as Network)
   }
@@ -322,20 +359,39 @@ export class AppComponent implements OnInit {
     // @ts-ignore
     currentstage.completed = true;
     this.currentStage = stageId;
-    if (stageId === 3) {
-      console.log("Make red")
-      this.defaultLayer.paint = {
-        "icon-color": "red",
-        "text-color": "red"
-      }
-    }
+    let newStage = this.stages.find(stage => stage.id === stageId)
+    let root = document.querySelector(':root');
+    // @ts-ignore
+    root.style.setProperty('--stage-color', newStage.color[0]);
+    // @ts-ignore
+    root.style.setProperty('--stage-color-dark', newStage.color[1]);
+    // @ts-ignore
+    root.style.setProperty('--stage-color-radar', newStage.color[2]);
+    // @ts-ignore
+    this.map.setPaintProperty("road-label", 'text-color', newStage?.color[0]);
   }
 
   hack() {
     // call api to start or stop the hack
     this.hackService.startHack(this.hackStarted).subscribe((data:boolean) => {
       this.hackStarted = data;
+
+      if(data){
+        this.map.flyTo({zoom:19, center:[this.currentLocation[0] + 0.0002, this.currentLocation[1]], duration:1000})
+      }else{
+        this.map.flyTo({zoom:18, center:[this.currentLocation[0], this.currentLocation[1]], duration:1000})
+      }
+
       this.changeDetector.detectChanges();
     })
+  }
+
+  load() {
+    this.data = mergelData;
+    this.scannedNetworks = this.data.features;
+    this.setPoppedUpNetwork();
+    this.stages.filter(stage => stage.id < 3).forEach(stage => stage.completed = true)
+    this.toStage(3)
+    this.changeDetector.detectChanges();
   }
 }

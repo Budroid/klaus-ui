@@ -4,12 +4,38 @@
     <div *ngFor="let lStage of stages" class="list-group-item progress-list" aria-current="true">
       <div class="d-flex w-100 justify-content-between">
         <b class="mb-1">{{lStage.name}}</b>
-        <small *ngIf="lStage.completed"> <fa-icon style="color: blue" [icon]="faCircleCheck"></fa-icon></small>
+        <fa-icon class="fa-xl" *ngIf="lStage.completed" style="color: var(--stage-color)" [icon]="faCircleCheck"></fa-icon>
       </div>
-<!--      <p class="mb-1">Some placeholder content in a paragraph.</p>-->
-      <small *ngIf="lStage.id === currentStage?.id">{{lStage.description}}</small>
-      <button *ngIf="currentStage?.id === 1 && lStage.id === currentStage?.id" (click)="scan()" type="button" class="btn btn-primary btn-quick-scan">Scan</button>
-      <button *ngIf="currentStage?.id === 3 && lStage.id === currentStage?.id" (click)="hack()" type="button" class="btn btn-danger btn-attack">Hack</button>
+
+      <div *ngIf="lStage.id === currentStage" class="container">
+        <div class="row p-1">
+          <p class="p-0">{{lStage.description}}</p>
+        </div>
+        <div *ngIf="currentStage === 1" class="row p-1">
+          <button  (click)="scan()" type="button" class="btn btn-sm btn-outline-primary btn-actions">Scan</button>
+        </div>
+        <div *ngIf="currentStage === 1" class="row p-1">
+          <button (click)="load()" type="button" class="btn btn-sm btn-outline-primary btn-actions">Load</button>
+        </div>
+
+        <div *ngIf="currentStage === 3" class="row p-1">
+          <button (click)="hack()" type="button" class="btn btn-sm btn-outline-danger btn-actions">Attack</button>
+        </div>
+        <div *ngIf="currentStage === 3" class="row p-1">
+          <a class="m-0 p-0" download="my-json-object.json" [href]="dataUri">
+            <button type="button" class="btn btn-sm btn-outline-danger btn-actions">Download</button>
+          </a>
+       </div>
+      </div>
+
+
+
+
+
+
+
+
+
     </div>
 
   </div>

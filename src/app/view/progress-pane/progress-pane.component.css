@@ -2,3 +2,16 @@
   background:none;
   color: white;
 }
+
+
+.btn-actions{
+  position: relative;
+  width: 100%;
+  /*font-size: 6pt;*/
+  /*padding-top: 4px;*/
+  /*padding-bottom: 4px;*/
+  /*padding-left: 8px;*/
+  /*padding-right: 8px;*/
+  /*margin-left: 10px;*/
+  /*margin-right: 6px;*/
+}
