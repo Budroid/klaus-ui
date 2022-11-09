@@ -1,9 +1,26 @@
 <p>Networks ({{hackedNetworksCount > 0 ? hackedNetworksCount + "/" : ""}}{{scannedNetworks?.length || 0}})</p>
 <hr>
-<div class="list-group">
+<div class="list-group"
+     style="float: left;"
+     [class.overflow]="scannedNetworks!.length > 36">
   <a href="#"
-     class="list-group-item m-0 p-0"
-     *ngFor="let network of scannedNetworks"
+     class="list-group-item m-0 p-0 ellipsis"
+     *ngFor="let network of scannedNetworks?.slice(0,36)"
+     [class.active]="network.properties.active"
+     [class.text-primary]="network.geometry && !network.properties.hacked"
+     [class.text-danger]="network.geometry && network.properties.hacked"
+     (click)="selectNetwork(network)">
+
+    <fa-icon [class]="getSignalClass(network)" [icon]="faWifiStrong"></fa-icon>
+    {{network.properties.ssid}}
+  </a>
+</div>
+<div class="list-group"
+     style="float: right"
+     [class.overflow]="scannedNetworks!.length > 36">
+  <a href="#"
+     class="list-group-item m-0 p-0 ellipsis"
+     *ngFor="let network of scannedNetworks?.slice(36)"
      [class.active]="network.properties.active"
      [class.text-primary]="network.geometry && !network.properties.hacked"
      [class.text-danger]="network.geometry && network.properties.hacked"

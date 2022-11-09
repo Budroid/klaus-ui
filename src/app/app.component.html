@@ -59,6 +59,7 @@
   *ngIf="!interactive"
   id="network_pane"
   class="pane"
+  [class.network_pane_wide]="scannedNetworks.length > 36"
   [scannedNetworks]="scannedNetworks"
   (selectNetworkEvent)="selectNetwork($event)">
 </app-networklist-pane>

@@ -15,6 +15,11 @@
   z-index: 999;
 }
 
+.network_pane_wide{
+  width: 20vw !important;
+  right: 2vw !important;
+}
+
 #system_pane{
   width: 15vw;
   height: 25vh;

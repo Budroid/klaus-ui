@@ -19,3 +19,13 @@
   background: none;
   color: white;
 }
+
+.ellipsis {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.overflow{
+  width: 8vw;
+}
